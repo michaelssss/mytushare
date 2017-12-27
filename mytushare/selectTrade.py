@@ -41,4 +41,4 @@ def get_average_open_price_in_duration(df):
     return total / index
 
 
-select(5)
+select(20)
