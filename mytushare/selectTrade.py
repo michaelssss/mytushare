@@ -1,4 +1,5 @@
 import datetime as dt
+import sys
 
 import tushare as ts
 
@@ -20,7 +21,7 @@ def select(duration):
             lastdayprice = row1['close']
             offrate = ((lastdayprice - avgPrice) / avgPrice) * 100
             if offrate < -2:
-                print('buy name=', row['name'], " code=", stockCode, " offsetrate=%.2f%%"% offrate)
+                print('buy name=', row['name'], " code=", stockCode, " offsetrate=%.2f%%" % offrate)
 
 
 def get_average_close_price_in_duration(df):
@@ -29,6 +30,8 @@ def get_average_close_price_in_duration(df):
     for _, row in df.iterrows():
         total += row['close']
         index += 1
+    if index == 0:
+        return 0
     return total / index
 
 
@@ -38,7 +41,14 @@ def get_average_open_price_in_duration(df):
     for _, row in df.iterrows():
         total += row['open']
         index += 1
+    if index == 0:
+        return 0
     return total / index
 
 
-select(20)
+def main():
+    select(int(sys.argv[1]))
+
+
+if __name__ == "__main__":
+    main()
