@@ -5,7 +5,7 @@ import tushare as ts
 
 
 # 以二十天均价为准点，偏离均价两个点即可入选
-def select(duration):
+def select(duration, offsetrate):
     stocks = ts.get_stock_basics()
     now = dt.datetime.now()
     before = (dt.datetime.now() - dt.timedelta(days=duration))
@@ -20,7 +20,7 @@ def select(duration):
         for _, row1 in df1.iterrows():
             lastdayprice = row1['close']
             offrate = ((lastdayprice - avgPrice) / avgPrice) * 100
-            if offrate < -2:
+            if offrate < offsetrate:
                 print('buy name=', row['name'], " code=", stockCode, " offsetrate=%.2f%%" % offrate)
 
 
@@ -47,7 +47,7 @@ def get_average_open_price_in_duration(df):
 
 
 def main():
-    select(int(sys.argv[1]))
+    select(int(sys.argv[1]), float(sys.argv[2]))
 
 
 if __name__ == "__main__":
