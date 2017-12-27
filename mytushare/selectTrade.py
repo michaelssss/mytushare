@@ -53,7 +53,7 @@ def get_average_open_price_in_duration(df):
 
 
 def main():
-    select(int(sys.argv[1]), float(sys.argv[2]))
+    select(int(sys.argv[1]), float(sys.argv[2]), int(sys.argv[3]), float(sys.argv[4]))
 
 
 if __name__ == "__main__":
