@@ -1,6 +1,5 @@
 import datetime as dt
 import sys
-
 import tushare as ts
 
 
@@ -9,18 +8,9 @@ def select(duration, offsetrate, duration2, offsetrate2):
     with open("/root/pythonTrade/result", "a+") as file:
         stocks = ts.get_stock_basics()
         now = dt.datetime.now()
-        before = (dt.datetime.now() - dt.timedelta(days=duration))
-        before2 = (dt.datetime.now() - dt.timedelta(days=duration2))
         file.writelines(now.strftime("%Y-%m-%d %H:%M:%S \r\n"))
         for stockCode, row in stocks.iterrows():
-            # print("analyze name=", row['name'], " code=", stockCode)
-            df = ts.get_k_data(code=stockCode, start=before.strftime("%Y-%m-%d"),
-                               end=now.strftime("%Y-%m-%d"))
-            avgPrice = (get_average_open_price_in_duration(df) + get_average_close_price_in_duration(df)) / 2
-            df2 = ts.get_k_data(code=stockCode, start=before2.strftime("%Y-%m-%d"),
-                                end=now.strftime("%Y-%m-%d"))
-            avgPrice2 = (get_average_open_price_in_duration(df2) + get_average_close_price_in_duration(df2)) / 2
-
+            avgPrice, avgPrice2 = CalcAvg(duration, duration2, stockCode)
             lastday = (dt.datetime.now() - dt.timedelta(days=1))
             df1 = ts.get_k_data(code=stockCode, start=lastday.strftime("%Y-%m-%d"),
                                 end=lastday.strftime("%Y-%m-%d"))
@@ -33,6 +23,19 @@ def select(duration, offsetrate, duration2, offsetrate2):
                         str.format("name={0}, code={1}, offsetrate={2:.2f}%  ,offsetrate2={3:.2f}% \r\n", row['name'],
                                    stockCode, offrate, offrate2))
                     file.flush()
+
+
+def CalcAvg(duration, duration2, stockCode):
+    now = dt.datetime.now()
+    before = (dt.datetime.now() - dt.timedelta(days=duration))
+    before2 = (dt.datetime.now() - dt.timedelta(days=duration2))
+    df = ts.get_k_data(code=stockCode, start=before.strftime("%Y-%m-%d"),
+                       end=now.strftime("%Y-%m-%d"))
+    avgPrice = (get_average_open_price_in_duration(df) + get_average_close_price_in_duration(df)) / 2
+    df2 = ts.get_k_data(code=stockCode, start=before2.strftime("%Y-%m-%d"),
+                        end=now.strftime("%Y-%m-%d"))
+    avgPrice2 = (get_average_open_price_in_duration(df2) + get_average_close_price_in_duration(df2)) / 2
+    return avgPrice, avgPrice2
 
 
 def get_average_close_price_in_duration(df):
@@ -59,6 +62,7 @@ def get_average_open_price_in_duration(df):
 
 def main():
     select(int(sys.argv[1]), float(sys.argv[2]), int(sys.argv[3]), float(sys.argv[4]))
+    # print(CalcAvg(365, 50, '000063'))
 
 
 if __name__ == "__main__":
