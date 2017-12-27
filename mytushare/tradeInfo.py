@@ -25,12 +25,12 @@ def start(myStock):
                 holdoffsetrate = ((nowprice - stockinfo.holdprice) / stockinfo.holdprice) * 100
                 print("avg price=%.2f" % avgprice)
                 print("now price=%.2f" % nowprice)
-                print("holdoffset rate=%d%%" % (holdoffsetrate * 100))
+                print("holdoffset rate=%.2f%%" % holdoffsetrate)
                 if holdoffsetrate > 0 and holdoffsetrate > 10:
                     print(row['name'], "sell")
                     print("avg price=%.2f" % avgprice)
                     print("now price=%.2f" % nowprice)
-                    print("holdoffset rate=%d%%" % holdoffsetrate)
+                    print("holdoffset rate=%.2f%%" % holdoffsetrate)
         sleeptime.sleep(10)
 
 
