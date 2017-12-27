@@ -20,7 +20,7 @@ def select(duration):
             lastdayprice = row1['close']
             offrate = ((lastdayprice - avgPrice) / avgPrice) * 100
             if offrate < -2:
-                print('buy name=', row['name'], " code=", stockCode, " offrate= ", offrate)
+                print('buy name=', row['name'], " code=", stockCode, " offsetrate=%.2f%%", offrate)
 
 
 def get_average_close_price_in_duration(df):
