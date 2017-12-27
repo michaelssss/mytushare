@@ -23,10 +23,12 @@ def start(myStock):
                 avgprice = stockinfo.todayAvgPrice
                 nowprice = float(row['ask'])
                 holdoffsetrate = ((nowprice - stockinfo.holdprice) / stockinfo.holdprice) * 100
-                print("avg price=%.2f" % avgprice)
-                print("now price=%.2f" % nowprice)
-                print("holdoffset rate=%.2f%%" % holdoffsetrate)
                 if holdoffsetrate > 0 and holdoffsetrate > 10:
+                    print(row['name'], "sell")
+                    print("avg price=%.2f" % avgprice)
+                    print("now price=%.2f" % nowprice)
+                    print("holdoffset rate=%.2f%%" % holdoffsetrate)
+                elif holdoffsetrate < 0 and holdoffsetrate < -5:
                     print(row['name'], "sell")
                     print("avg price=%.2f" % avgprice)
                     print("now price=%.2f" % nowprice)
