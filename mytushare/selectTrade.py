@@ -29,9 +29,10 @@ def select(duration, offsetrate, duration2, offsetrate2):
                 offrate = ((lastdayprice - avgPrice) / avgPrice) * 100
                 offrate2 = ((lastdayprice - avgPrice2) / avgPrice2) * 100
                 if offrate < offsetrate and offrate2 > offsetrate2:
-                    file.writelines(
+                    file.write(
                         str.format("name={0}, code={1}, offsetrate={2:.2f}%  ,offsetrate2={3:.2f}% \r\n", row['name'],
                                    stockCode, offrate, offrate2))
+                    file.flush()
 
 
 def get_average_close_price_in_duration(df):
