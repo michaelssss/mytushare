@@ -9,7 +9,7 @@ def select(duration):
     now = dt.datetime.now()
     before = (dt.datetime.now() - dt.timedelta(days=duration))
     for stockCode, row in stocks.iterrows():
-        print("analyze name=", row['name'], " code=", stockCode)
+        # print("analyze name=", row['name'], " code=", stockCode)
         df = ts.get_k_data(code=stockCode, start=before.strftime("%Y-%m-%d"),
                            end=now.strftime("%Y-%m-%d"))
         avgPrice = (get_average_open_price_in_duration(df) + get_average_close_price_in_duration(df)) / 2
@@ -20,7 +20,7 @@ def select(duration):
             lastdayprice = row1['close']
             offrate = ((lastdayprice - avgPrice) / avgPrice) * 100
             if offrate < -2:
-                print('buy name=', row['name'], " code=", stockCode)
+                print('buy name=', row['name'], " code=", stockCode, " offrate= ", offrate)
 
 
 def get_average_close_price_in_duration(df):
