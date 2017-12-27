@@ -11,7 +11,7 @@ def select(duration, offsetrate, duration2, offsetrate2):
         now = dt.datetime.now()
         before = (dt.datetime.now() - dt.timedelta(days=duration))
         before2 = (dt.datetime.now() - dt.timedelta(days=duration2))
-        file.writelines(now.strftime("%Y-%m-%d %H:%M:%S"))
+        file.writelines(now.strftime("%Y-%m-%d %H:%M:%S \r\n"))
         for stockCode, row in stocks.iterrows():
             # print("analyze name=", row['name'], " code=", stockCode)
             df = ts.get_k_data(code=stockCode, start=before.strftime("%Y-%m-%d"),
