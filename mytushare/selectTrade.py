@@ -8,12 +8,15 @@ import mytushare.utils as utils
 
 # 如果近duration的均值偏离值小于offsetrate且近duration2均值偏离值大于offsetrate2则入选
 def select(duration, offsetrate, duration2, offsetrate2):
-    with open("/root/pythonTrade/result", "a+") as file:
-        stocks = ts.get_stock_basics()
-        now = dt.datetime.now()
-        file.writelines(now.strftime("%Y-%m-%d %H:%M:%S \r\n"))
-        for stockCode, row in stocks.iterrows():
-            thread.Thread(target=cal, args=[duration, duration2, file, offsetrate, offsetrate2, row, stockCode]).start()
+    file = open("/root/pythonTrade/result", "a+")
+    stocks = ts.get_stock_basics()
+    now = dt.datetime.now()
+    file.writelines(now.strftime("%Y-%m-%d %H:%M:%S \r\n"))
+    for stockCode, row in stocks.iterrows():
+        threa = thread.Thread(target=cal, args=[duration, duration2, file, offsetrate, offsetrate2, row, stockCode])
+        threa.start()
+        threa.join()
+    file.close()
 
 
 def cal(duration, duration2, file, offsetrate, offsetrate2, row, stockCode):
