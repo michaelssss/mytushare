@@ -1,6 +1,9 @@
 import datetime as dt
 import sys
+
 import tushare as ts
+
+import mytushare.utils as utils
 
 
 # 如果近duration的均值偏离值小于offsetrate且近duration2均值偏离值大于offsetrate2则入选
@@ -10,7 +13,8 @@ def select(duration, offsetrate, duration2, offsetrate2):
         now = dt.datetime.now()
         file.writelines(now.strftime("%Y-%m-%d %H:%M:%S \r\n"))
         for stockCode, row in stocks.iterrows():
-            avgPrice, avgPrice2 = CalcAvg(duration, duration2, stockCode)
+            avgPrice, = utils.CalcAvg(duration, stockCode)
+            avgPrice2 = utils.CalcAvg(duration2, stockCode)
             lastday = (dt.datetime.now() - dt.timedelta(days=1))
             df1 = ts.get_k_data(code=stockCode, start=lastday.strftime("%Y-%m-%d"),
                                 end=lastday.strftime("%Y-%m-%d"))
@@ -23,41 +27,6 @@ def select(duration, offsetrate, duration2, offsetrate2):
                         str.format("name={0}, code={1}, offsetrate={2:.2f}%  ,offsetrate2={3:.2f}% \r\n", row['name'],
                                    stockCode, offrate, offrate2))
                     file.flush()
-
-
-def CalcAvg(duration, duration2, stockCode):
-    now = dt.datetime.now()
-    before = (dt.datetime.now() - dt.timedelta(days=duration))
-    before2 = (dt.datetime.now() - dt.timedelta(days=duration2))
-    df = ts.get_k_data(code=stockCode, start=before.strftime("%Y-%m-%d"),
-                       end=now.strftime("%Y-%m-%d"))
-    avgPrice = (get_average_open_price_in_duration(df) + get_average_close_price_in_duration(df)) / 2
-    df2 = ts.get_k_data(code=stockCode, start=before2.strftime("%Y-%m-%d"),
-                        end=now.strftime("%Y-%m-%d"))
-    avgPrice2 = (get_average_open_price_in_duration(df2) + get_average_close_price_in_duration(df2)) / 2
-    return avgPrice, avgPrice2
-
-
-def get_average_close_price_in_duration(df):
-    index = 0
-    total = 0
-    for _, row in df.iterrows():
-        total += row['close']
-        index += 1
-    if index == 0:
-        return 0
-    return total / index
-
-
-def get_average_open_price_in_duration(df):
-    index = 0
-    total = 0
-    for _, row in df.iterrows():
-        total += row['open']
-        index += 1
-    if index == 0:
-        return 0
-    return total / index
 
 
 def main():
