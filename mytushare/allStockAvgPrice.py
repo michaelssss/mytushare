@@ -22,5 +22,5 @@ def cal(duration):
     print("this year all stock avg offsetrate is %.2f%%" % (totalOffsetrate / index))
 
 
-def main():
-    cal(365)
+def main(duration):
+    cal(duration)
