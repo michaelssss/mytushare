@@ -1,5 +1,4 @@
 import datetime as dt
-import sys
 
 import tushare as ts
 
@@ -29,10 +28,5 @@ def select(duration, offsetrate, duration2, offsetrate2):
                     file.flush()
 
 
-def main():
-    select(int(sys.argv[1]), float(sys.argv[2]), int(sys.argv[3]), float(sys.argv[4]))
-    # print(CalcAvg(365, 50, '000063'))
-
-
-if __name__ == "__main__":
-    main()
+def main(duration, offsetrate, duration2, offsetrate2):
+    select(duration, offsetrate, duration2, offsetrate2)
