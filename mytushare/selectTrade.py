@@ -12,7 +12,7 @@ def select(duration, offsetrate, duration2, offsetrate2):
         now = dt.datetime.now()
         file.writelines(now.strftime("%Y-%m-%d %H:%M:%S \r\n"))
         for stockCode, row in stocks.iterrows():
-            avgPrice, = utils.CalcAvg(duration, stockCode)
+            avgPrice = utils.CalcAvg(duration, stockCode)
             avgPrice2 = utils.CalcAvg(duration2, stockCode)
             lastday = (dt.datetime.now() - dt.timedelta(days=1))
             df1 = ts.get_k_data(code=stockCode, start=lastday.strftime("%Y-%m-%d"),
