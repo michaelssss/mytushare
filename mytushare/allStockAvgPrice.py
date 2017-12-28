@@ -19,7 +19,7 @@ def cal(duration):
         for _, row1 in df1.iterrows():
             lastdayprice = row1['close']
             totalOffsetrate += ((lastdayprice - avgPrice) * 100) / avgPrice
-    print("this year all stock avg offsetrate is %.2f%%" % (totalOffsetrate / index))
+    print("during {0} days all stock avg offsetrate is {1:.2f}%".format(duration, totalOffsetrate / index))
 
 
 def main(duration):
