@@ -29,4 +29,4 @@ def select(duration, offsetrate, duration2, offsetrate2):
 
 
 def main(duration, offsetrate, duration2, offsetrate2):
-    select(duration, offsetrate, duration2, offsetrate2)
+    select(int(duration), float(offsetrate), int(duration2), float(offsetrate2))

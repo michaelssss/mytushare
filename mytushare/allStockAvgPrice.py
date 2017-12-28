@@ -23,4 +23,4 @@ def cal(duration):
 
 
 def main(duration):
-    cal(duration)
+    cal(int(duration))
