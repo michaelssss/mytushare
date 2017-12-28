@@ -24,7 +24,3 @@ def cal(duration):
 
 def main():
     cal(365)
-
-
-if __name__ == "__main__":
-    main()
