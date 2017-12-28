@@ -2,7 +2,7 @@ import datetime as dt
 
 import tushare as ts
 
-import mytushare.utils as utils
+from mytushare import utils as utils
 
 
 def cal(duration):
