@@ -18,12 +18,16 @@ def selectIntoLocal(duration, offsetrate, duration2, offsetrate2):
     try:
         stocks = ts.get_stock_basics()
         for stockCode, row in stocks.iterrows():
-            df = ts.get_h_data(code=stockCode, start='2017-11-01', end='2018-01-01', pause=5)
-            df.insert(0, 'code', stockCode)
-            stockPriceMatrix.append(df)
+            try:
+                df = ts.get_h_data(code=stockCode, start='2017-11-01', end='2018-01-01', pause=5)
+                df.insert(0, 'code', stockCode)
+                stockPriceMatrix.append(df)
+            except IOError:
+                print("get_h_data wrong sleep " + str(10 * 60) + "second")
+                time.sleep(10 * 60)
         getCov()
     except IOError:
-        print("wrong sleep " + str(10 * 60) + "second")
+        print("get_stock_basics wrong sleep " + str(10 * 60) + "second")
         time.sleep(10 * 60)
         selectIntoLocal(duration, offsetrate, duration2, offsetrate2)
 
