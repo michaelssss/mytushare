@@ -29,15 +29,15 @@ def selectIntoLocal(duration, offsetrate, duration2, offsetrate2):
 
 
 def getCov():
-    # with open("/root/pythonTrade/result", "a+") as file:
-    for stock1 in stockPriceMatrix:
-        for stock2 in stockPriceMatrix:
-            if stock1['code'] == stock2['code']:
-                continue
-            else:
-                relatetions.append(
-                    Relatetion(stock1['code'][0], stock2['code'][0], stock1['close'].corr(stock2['close'])))
-    print(relatetions)
+    with open("/root/pythonTrade/result", "a+") as file:
+        for stock1 in stockPriceMatrix:
+            for stock2 in stockPriceMatrix:
+                if stock1['code'] == stock2['code']:
+                    continue
+                else:
+                    relatetions.append(
+                        Relatetion(stock1['code'][0], stock2['code'][0], stock1['close'].corr(stock2['close'])))
+        file.write(str(relatetions))
 
 
 def main(duration, offsetrate, duration2, offsetrate2):
