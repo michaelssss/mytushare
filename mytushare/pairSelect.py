@@ -15,7 +15,7 @@ class Relatetion:
 def selectIntoLocal(duration, offsetrate, duration2, offsetrate2):
     stocks = ts.get_stock_basics()
     for stockCode, row in stocks.iterrows():
-        df = ts.get_h_data(code=stockCode, start='2017-11-01', end='2018-01-01')
+        df = ts.get_h_data(code=stockCode, start='2017-11-01', end='2018-01-01', pause=5)
         df.insert(0, 'code', stockCode)
         stockPriceMatrix.append(df)
     getCov()
