@@ -16,23 +16,19 @@ class Relatetion:
 # 将数据存入本地
 def selectIntoLocal(offdate):
     now = datetime.datetime.now()
-    start = now.strftime('%Y-%m-%d')
-    end = (now - datetime.timedelta(days=offdate)).strftime('%Y-%m-%d')
+    start = (now - datetime.timedelta(days=offdate)).strftime('%Y-%m-%d')
+    end = now.strftime('%Y-%m-%d')
     stocks = ts.get_stock_basics()
     for stockCode, row in stocks.iterrows():
         while True:
             try:
-                save(stockCode, start=start, end=end)
+                df = ts.get_h_data(code=stockCode, start=start, end=end, pause=5)
+                df.insert(0, 'code', stockCode)
+                insertDB(df)
                 break
             except IOError:
                 print("get_h_data wrong sleep " + str(10 * 60) + "second")
                 time.sleep(10 * 60)
-
-
-def save(stockCode, start, end):
-    df = ts.get_h_data(code=stockCode, start=start, end=end, pause=5)
-    df.insert(0, 'code', stockCode)
-    insertDB(df)
 
 
 def insertDB(df):
