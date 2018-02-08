@@ -44,4 +44,4 @@ def insertDB(df):
 
 
 def main(duration):
-    selectIntoLocal(duration)
+    selectIntoLocal(int(duration))
