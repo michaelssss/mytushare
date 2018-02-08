@@ -17,7 +17,7 @@ class Relatetion:
 def selectIntoLocal(offdate):
     now = datetime.datetime.now()
     start = now.strftime('%Y-%m-%d')
-    end = (now + datetime.timedelta(days=offdate)).strftime('%Y-%m-%d')
+    end = (now - datetime.timedelta(days=offdate)).strftime('%Y-%m-%d')
     stocks = ts.get_stock_basics()
     for stockCode, row in stocks.iterrows():
         while True:
