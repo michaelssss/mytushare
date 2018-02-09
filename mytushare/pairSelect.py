@@ -58,7 +58,7 @@ ORDER BY t12.code, t12.date;"""
 def writeFile():
     with open("/root/pythonTrade/result", "a+") as file:
         for r in relations:
-            file.writelines(str(r))
+            file.writelines(str(r) + "/r/n")
 
 
 def getCov():
