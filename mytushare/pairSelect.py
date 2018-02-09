@@ -42,10 +42,7 @@ ORDER BY t12.code, t12.date;"""
         stocksset.add(data1[0])
     print("load stock code finish")
     # 建立树形结构
-    b = 0
     for stockCode in stocksset:
-        b += 1
-        if b == 10: break
         dfdata = []
         for data1 in data:
             if data1[0] == stockCode:
