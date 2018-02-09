@@ -29,6 +29,7 @@ def selectIntoLocal(offdate):
             except IOError:
                 print("get_h_data wrong sleep " + str(10 * 60) + "second")
                 time.sleep(10 * 60)
+    print("get finish")
 
 
 def insertDB(df):
