@@ -4,7 +4,6 @@ import db.DBConnection as db1
 
 stockPriceMatrix = []
 
-relations = []
 stocks = []
 
 
@@ -16,6 +15,12 @@ class Relatetion:
 
     def __str__(self):
         return str("code1=%s|code2=%s|relation=%s" % (self.code1, self.code2, self.relation))
+
+    def save(self):
+        sql = "insert into DATA.relation(`code1`,`code2`,`relation`) values('%s','%s','%s'); " % (
+            self.code1, self.code2, self.relation)
+        db1.cursor.execute(sql)
+        db1.db.commit()
 
 
 class Stock:
@@ -52,23 +57,14 @@ ORDER BY t12.code, t12.date;"""
     print("load history finish")
     getCov()
     print("cal Finish")
-    sorted(relations, key=lambda r: r.relation)
-    writeFile()
-
-
-def writeFile():
-    with open("/root/pythonTrade/result", "a+") as file:
-        for r in relations:
-            file.writelines(str(r) + "/r/n")
-            file.flush()
 
 
 def getCov():
     for stock1 in stocks:
         for stock2 in stocks:
             if stock1.code != stock2.code:
-                relations.append(Relatetion(code1=stock1.code, code2=stock2.code,
-                                            re=stock1.df[0].astype('float64').corr(stock2.df[0].astype('float64'))))
+                Relatetion(code1=stock1.code, code2=stock2.code,
+                           re=stock1.df[0].astype('float64').corr(stock2.df[0].astype('float64'))).save()
 
 
 def main():
