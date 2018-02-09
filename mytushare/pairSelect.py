@@ -51,6 +51,7 @@ ORDER BY t12.code, t12.date;"""
         print("load stock code ", str(stockCode), " finish")
     print("load history finish")
     getCov()
+    print("cal Finish")
     sorted(relations, key=lambda r: r.relation)
     writeFile()
 
@@ -59,6 +60,7 @@ def writeFile():
     with open("/root/pythonTrade/result", "a+") as file:
         for r in relations:
             file.writelines(str(r) + "/r/n")
+            file.flush()
 
 
 def getCov():
