@@ -5,6 +5,7 @@ import db.DBConnection as db1
 stockPriceMatrix = []
 
 relations = []
+stocks = []
 
 
 class Relatetion:
@@ -17,20 +18,40 @@ class Relatetion:
         return str("code1=%s|code2=%s|relation=%s" % (self.code1, self.code2, self.relation))
 
 
+class Stock:
+    def __init__(self, code, df):
+        self.code = code
+        self.df = df
+
+
 def loadData():
-    sql = "select `code`, `date`, `open`, `high`, `close`, `low`, `volume`, `amount` from `DATA`.`h_data`"
+    sql = """SELECT
+  t12.`code`,
+  t12.`date`,
+  t12.`close`
+FROM (SELECT *
+      FROM h_data AS t1
+      GROUP BY t1.code, t1.close) AS t12
+ORDER BY t12.code, t12.date;"""
     cursor = db1.cursor
     cursor.execute(sql)
     data = cursor.fetchall()
-    Index = []
-    dfData = []
-    columns = ['code', 'open', 'high', 'close', 'low', 'volume', 'amount']
+    stocksset = set([])
+    # 获取所有Code
     for data1 in data:
-        Index.append(data1[1])
-        dfData.append(
-            [data1[0], float(data1[2]), float(data1[3]), float(data1[4]), float(data1[5]),
-             data1[6], data1[7]])
-    stockPriceMatrix.append(DataFrame(data=dfData, index=Index, columns=columns))
+        stocksset.add(data1[0])
+    print("load stock code finish")
+    # 建立树形结构
+    b = 0
+    for stockCode in stocksset:
+        b += 1
+        if b == 10: break
+        dfdata = []
+        for data1 in data:
+            if data1[0] == stockCode:
+                dfdata.append(data1[2])
+        stocks.append(Stock(stockCode, DataFrame(data=dfdata)))
+        print("load stock code ", str(stockCode), " finish")
     print("load history finish")
     getCov()
     sorted(relations, key=lambda r: r.relation)
@@ -40,18 +61,15 @@ def loadData():
 def writeFile():
     with open("/root/pythonTrade/result", "a+") as file:
         for r in relations:
-            file.writelines(
-                str(Relatetion(r.code1, r.code2, r.relation)))
+            file.writelines(str(r))
 
 
 def getCov():
-    for stock1 in stockPriceMatrix:
-        for stock2 in stockPriceMatrix:
-            if stock1['code'] == stock2['code']:
-                continue
-            else:
-                relation = stock1['close'].corr(stock2['close'])
-                relations.append(relation)
+    for stock1 in stocks:
+        for stock2 in stocks:
+            if stock1.code != stock2.code:
+                relations.append(Relatetion(code1=stock1.code, code2=stock2.code,
+                                            re=stock1.df[0].astype('float64').corr(stock2.df[0].astype('float64'))))
 
 
 def main():
