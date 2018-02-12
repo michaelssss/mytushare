@@ -6,6 +6,8 @@ stockPriceMatrix = []
 
 stocks = []
 
+map = {}
+
 
 class Relatetion:
     def __init__(self, code1, code2, re):
@@ -63,8 +65,13 @@ def getCov():
     for stock1 in stocks:
         for stock2 in stocks:
             if stock1.code != stock2.code:
-                Relatetion(code1=stock1.code, code2=stock2.code,
-                           re=stock1.df[0].astype('float64').corr(stock2.df[0].astype('float64'))).save()
+                if map.get(str(stock1.code) + str(stock2.code)) == 1 or map.get(
+                        str(stock2.code) + str(stock1.code)) == 1:
+                    continue
+                else:
+                    Relatetion(code1=stock1.code, code2=stock2.code,
+                               re=stock1.df[0].astype('float64').corr(stock2.df[0].astype('float64'))).save()
+                    map[str(stock1.code) + str(stock2.code)] = 1
 
 
 def main():
