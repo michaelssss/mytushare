@@ -9,6 +9,8 @@ stocks = []
 
 map = {}
 
+validDuration = 50
+
 
 class Relatetion:
     def __init__(self, code1, code2, re):
@@ -74,10 +76,11 @@ def getCov():
                     continue
                 else:
                     dfArr = getSomeDurationData(stock1, stock2)
-                    re = dfArr['close_x'].astype('float64').corr(dfArr['close_y'].astype('float64'))
-                    Relatetion(code1=stock1.code, code2=stock2.code,
-                               re=re).save()
-                    map[str(stock1.code) + str(stock2.code)] = 1
+                    if dfArr.size >= validDuration:
+                        re = dfArr['close_x'].astype('float64').corr(dfArr['close_y'].astype('float64'))
+                        Relatetion(code1=stock1.code, code2=stock2.code,
+                                   re=re).save()
+                        map[str(stock1.code) + str(stock2.code)] = 1
 
 
 def getSomeDurationData(df1, df2):
