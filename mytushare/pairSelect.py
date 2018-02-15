@@ -20,7 +20,7 @@ class Relatetion:
         return str("code1=%s|code2=%s|relation=%s" % (self.code1, self.code2, self.relation))
 
     def save(self):
-        sql = "insert into DATA.relation(`code1`,`code2`,`relation`,``) values('%s','%s','%s'); " % (
+        sql = "insert into DATA.relation(`code1`,`code2`,`relation`) values('%s','%s','%s'); " % (
             self.code1, self.code2, self.relation)
         db1.cursor.execute(sql)
         db1.db.commit()
@@ -39,7 +39,7 @@ def loadData():
   t12.`close`
 FROM (SELECT *
       FROM h_data AS t1
-      GROUP BY t1.code, t1.close limit 5000) AS t12
+      GROUP BY t1.code, t1.close) AS t12
 ORDER BY t12.code, t12.date;"""
     cursor = db1.cursor
     cursor.execute(sql)
