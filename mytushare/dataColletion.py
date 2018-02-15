@@ -5,6 +5,8 @@ import tushare as ts
 
 import db.DBConnection as db1
 
+SleepTime = 10 * 60
+
 
 class Relatetion:
     def __init__(self, code1, code2, re):
@@ -13,7 +15,12 @@ class Relatetion:
         self.relation = re
 
 
-# 将数据存入本地
+#
+#
+# offdate : 往前倒多少天
+#
+#
+
 def selectIntoLocal(offdate):
     now = datetime.datetime.now()
     start = (now - datetime.timedelta(days=offdate)).strftime('%Y-%m-%d')
@@ -27,8 +34,8 @@ def selectIntoLocal(offdate):
                 insertDB(df)
                 break
             except IOError:
-                print("get_h_data wrong sleep " + str(10 * 60) + "second")
-                time.sleep(10 * 60)
+                print("get_h_data wrong sleep " + str(SleepTime) + "second")
+                time.sleep(SleepTime)
     print("get finish")
 
 

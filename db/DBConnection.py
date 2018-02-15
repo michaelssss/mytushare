@@ -1,4 +1,4 @@
 import pymysql
 
-db = pymysql.connect("192.168.1.6", "root", "impossble", "DATA")
+db = pymysql.connect("127.0.0.1", "root", "impossble", "DATA")
 cursor = db.cursor()
