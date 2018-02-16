@@ -91,6 +91,3 @@ def getSomeDurationData(df1, df2):
 
 def main():
     loadData()
-
-
-main()
