@@ -54,7 +54,7 @@ def selectIntoLocal(offdate):
 
 def insertDB(df):
     for index, row in df.iterrows():
-        sql = "insert into DATA.h_data(`code`,`date`,`open`,`high`,`close`,`low`,`volume`,`amount`) values('%s','%s','%f','%f','%f','%f','%s','%s'); " % (
+        sql = "replace into DATA.h_data(`code`,`date`,`open`,`high`,`close`,`low`,`volume`,`amount`) values('%s','%s','%f','%f','%f','%f','%s','%s'); " % (
             row['code'], index, row['open'], row['high'], row['close'], row['low'], row['volume'], row['amount'])
         db1.cursor.execute(sql)
         db1.db.commit()
