@@ -21,7 +21,7 @@ class Relatetion:
 #
 #
 def getLastStoreDate():
-    sql = "select max(updatetime) from DATA.updatetime;"
+    sql = "select max(dt) from DATA.updatetime;"
     db1.cursor.execute(sql)
     lastDate = db1.cursor.fetchall()
     for date in lastDate:
