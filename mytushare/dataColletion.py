@@ -21,7 +21,7 @@ class Relatetion:
 #
 #
 def getLastStoreDate():
-    sql = "select max(date) from DATA.h_data;"
+    sql = "select max(updatetime) from DATA.updatetime;"
     db1.cursor.execute(sql)
     lastDate = db1.cursor.fetchall()
     for date in lastDate:
@@ -60,5 +60,12 @@ def insertDB(df):
         db1.db.commit()
 
 
+def setLastUpdateTime():
+    sql = "replace into DATA.updatetime(uid,dt) values(%s,%s)" % (1, datetime.datetime.now())
+    db1.cursor.execute(sql)
+    db1.db.commit()
+
+
 def main(duration):
     selectIntoLocal(int(getDuration()))
+    setLastUpdateTime()
