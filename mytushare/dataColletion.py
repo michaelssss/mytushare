@@ -20,6 +20,19 @@ class Relatetion:
 # offdate : 往前倒多少天
 #
 #
+def getLastStoreDate():
+    sql = "select max(date) from DATA.h_data;"
+    db1.cursor.execute(sql)
+    lastDate = db1.cursor.fetchall()
+    for date in lastDate:
+        return date[0]
+
+
+def getDuration():
+    now = datetime.datetime.now()
+    lastUpdate = getLastStoreDate()
+    return (now - lastUpdate).days
+
 
 def selectIntoLocal(offdate):
     now = datetime.datetime.now()
@@ -48,4 +61,4 @@ def insertDB(df):
 
 
 def main(duration):
-    selectIntoLocal(int(duration))
+    selectIntoLocal(int(getDuration()))
