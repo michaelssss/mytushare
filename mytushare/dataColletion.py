@@ -68,7 +68,7 @@ def insertDB(df):
 
 
 def setLastUpdateTime():
-    sql = "replace into DATA.updatetime(uid,dt) values(%s,%s)" % (1, datetime.datetime.now())
+    sql = "insert into DATA.updatetime(dt) values(%s,%s)" % (datetime.datetime.now())
     db1.cursor.execute(sql)
     db1.db.commit()
 
