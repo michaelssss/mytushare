@@ -24,5 +24,5 @@ def start(myStock):
         sleeptime.sleep(10)
 
 
-stockinfo = [MyStockInfo(stockCode='000063', price=37.413)]
+stockinfo = [MyStockInfo(stockCode='000063', price=37.413),MyStockInfo(stockCode='601212', price=7.16)]
 start(stockinfo)

@@ -6,7 +6,5 @@ if __name__ == "__main__":
     action = sys.argv[5]
     if action == "allst":
         allStockAvgPrice.main(sys.argv[1])
-    elif action == "select":
-        pairSelect.main()
     elif action == "collet":
         dataColletion.main(sys.argv[1])

@@ -42,7 +42,7 @@ def selectIntoLocal(offdate):
     for stockCode, row in stocks.iterrows():
         while True:
             try:
-                df = ts.get_h_data(code=stockCode, start=start, end=end, pause=5)
+                df = ts.get_h_data(code=stockCode, start=start, end=end, pause=10)
                 df.insert(0, 'code', stockCode)
                 insertDB(df)
                 break
@@ -54,10 +54,17 @@ def selectIntoLocal(offdate):
 
 def insertDB(df):
     for index, row in df.iterrows():
-        sql = "replace into DATA.h_data(`code`,`date`,`open`,`high`,`close`,`low`,`volume`,`amount`) values('%s','%s','%f','%f','%f','%f','%s','%s'); " % (
-            row['code'], index, row['open'], row['high'], row['close'], row['low'], row['volume'], row['amount'])
+        #print(index)
+        sql = "select * from DATA.h_data as t1 where t1.code='%s' and t1.date='%s'"%(row['code'],index)
         db1.cursor.execute(sql)
-        db1.db.commit()
+        data = db1.cursor.fetchall()
+        if len(data) ==0: 
+            print(datetime.datetime.now())
+            print("insert code=%s,data=%s"%(row['code'],index))
+            sql = "replace into DATA.h_data(`code`,`date`,`open`,`high`,`close`,`low`,`volume`,`amount`) values('%s','%s','%f','%f','%f','%f','%s','%s'); " % (
+                 row['code'], index, row['open'], row['high'], row['close'], row['low'], row['volume'], row['amount'])
+            db1.cursor.execute(sql)
+            db1.db.commit()
 
 
 def setLastUpdateTime():
@@ -69,3 +76,4 @@ def setLastUpdateTime():
 def main(duration):
     selectIntoLocal(int(getDuration()))
     setLastUpdateTime()
+
