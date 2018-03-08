@@ -61,8 +61,7 @@ def insertDB(df):
         db1.cursor.execute(sql)
         data = db1.cursor.fetchall()
         if len(data) == 0:
-            log.info(datetime.datetime.now())
-            log.info("insert code=%s,data=%s" % (row['code'], index))
+            log.debug("insert code=%s,data=%s" % (row['code'], index))
             sql = "replace into DATA.h_data(`code`,`date`,`open`,`high`,`close`,`low`,`volume`,`amount`) values('%s','%s','%f','%f','%f','%f','%s','%s'); " % (
                 row['code'], index, row['open'], row['high'], row['close'], row['low'], row['volume'], row['amount'])
             db1.cursor.execute(sql)
