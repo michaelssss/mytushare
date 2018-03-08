@@ -8,9 +8,9 @@ DEBUG = "debug"
 class log:
     __instance = None
 
-    def __new__(cls):
+    def __new__(cls, *str):
         if not cls.__instance:
-            log.__instance = object.__new__(cls)
+            log.__instance = object.__new__(cls, str)
         return cls.__instance
 
     def __init__(self, *str):
