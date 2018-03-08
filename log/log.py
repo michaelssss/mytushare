@@ -31,6 +31,6 @@ class log:
 
     def __print(self, level, *str):
         now = dt.datetime.now()
-        timeStr = now.strftime("yyyy-MM-dd HH:mm:ss")
+        timeStr = now.strftime("%Y-%m-%d %X")
         # when level from which py
         print(timeStr, "[", level, "][", self.__logPy, "]:", str)

@@ -7,7 +7,8 @@ import db.DBConnection as db1
 import log.log as logP
 
 SleepTime = 10 * 60
-log = logP.log()
+log = logP.log("dataCollection.py")
+
 
 class Relatetion:
     def __init__(self, code1, code2, re):
