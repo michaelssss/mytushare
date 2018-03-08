@@ -2,9 +2,10 @@ import pandas as pd
 from pandas import DataFrame
 
 import db.DBConnection as db1
+from log import log as l
 
 stockPriceMatrix = []
-
+log = l.log()
 stocks = []
 
 map = {}
@@ -50,7 +51,7 @@ ORDER BY t12.code, t12.date;"""
     # 获取所有Code
     for data1 in data:
         stocksset.add(data1[0])
-    print("load stock code finish")
+    log.info("load stock code finish")
     # 建立树形结构
     for stockCode in stocksset:
         dfdata = []
@@ -61,10 +62,10 @@ ORDER BY t12.code, t12.date;"""
                 dfdata.append(data1[2])
         stocks.append(Stock(stockCode, DataFrame(index=Index1,
                                                  columns=["close"], data=dfdata)))
-        print("load stock code ", str(stockCode), " finish")
-    print("load history finish")
+        log.info("load stock code ", str(stockCode), " finish")
+    log.info("load history finish")
     getCov()
-    print("cal Finish")
+    log.info("cal Finish")
 
 
 def getCov():

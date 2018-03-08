@@ -4,9 +4,10 @@ import time
 import tushare as ts
 
 import db.DBConnection as db1
+import log.log as logP
 
 SleepTime = 10 * 60
-
+log = logP.log()
 
 class Relatetion:
     def __init__(self, code1, code2, re):
@@ -47,28 +48,28 @@ def selectIntoLocal(offdate):
                 insertDB(df)
                 break
             except IOError:
-                print("get_h_data wrong sleep " + str(SleepTime) + "second")
+                log.info("get_h_data wrong sleep " + str(SleepTime) + "second")
                 time.sleep(SleepTime)
-    print("get finish")
+    log.info("get finish")
 
 
 def insertDB(df):
     for index, row in df.iterrows():
-        #print(index)
-        sql = "select * from DATA.h_data as t1 where t1.code='%s' and t1.date='%s'"%(row['code'],index)
+        # log.info()(index)
+        sql = "select * from DATA.h_data as t1 where t1.code='%s' and t1.date='%s'" % (row['code'], index)
         db1.cursor.execute(sql)
         data = db1.cursor.fetchall()
-        if len(data) ==0: 
-            print(datetime.datetime.now())
-            print("insert code=%s,data=%s"%(row['code'],index))
+        if len(data) == 0:
+            log.info(datetime.datetime.now())
+            log.info("insert code=%s,data=%s" % (row['code'], index))
             sql = "replace into DATA.h_data(`code`,`date`,`open`,`high`,`close`,`low`,`volume`,`amount`) values('%s','%s','%f','%f','%f','%f','%s','%s'); " % (
-                 row['code'], index, row['open'], row['high'], row['close'], row['low'], row['volume'], row['amount'])
+                row['code'], index, row['open'], row['high'], row['close'], row['low'], row['volume'], row['amount'])
             db1.cursor.execute(sql)
             db1.db.commit()
 
 
 def setLastUpdateTime():
-    sql = "insert into DATA.updatetime(dt) values(%s,%s)" % (datetime.datetime.now())
+    sql = "insert into DATA.updatetime(dt) values(%s)" % (datetime.datetime.now())
     db1.cursor.execute(sql)
     db1.db.commit()
 
@@ -76,4 +77,3 @@ def setLastUpdateTime():
 def main(duration):
     selectIntoLocal(int(getDuration()))
     setLastUpdateTime()
-
